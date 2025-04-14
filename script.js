@@ -1,88 +1,79 @@
-function loadNotes() {
-  const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-  const list = document.getElementById("note-list");
-  list.innerHTML = "";
-
-  notes.forEach((note, index) => {
-    const div = document.createElement("div");
-    div.className = "note";
-
-    const content = document.createElement("p");
-    content.textContent = note.text;
-    div.appendChild(content);
-
-    if (note.files && note.files.length) {
-      note.files.forEach(file => {
-        const link = document.createElement("a");
-        link.href = file.data;
-        link.download = file.name;
-        link.textContent = `📎 ${file.name}`;
-        link.target = "_blank";
-        link.style.display = "block";
-        div.appendChild(link);
-      });
-    }
-
-    list.appendChild(div);
-  });
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #f3f3f3;
+  color: #333;
 }
 
-function addNote() {
-  const text = document.getElementById("note-text").value;
-  const fileInput = document.getElementById("note-file");
-  const files = fileInput.files;
-
-  const fileData = [];
-
-  const readerPromises = Array.from(files).map(file => {
-    return new Promise(resolve => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        fileData.push({ name: file.name, data: reader.result });
-        resolve();
-      };
-      reader.readAsDataURL(file);
-    });
-  });
-
-  Promise.all(readerPromises).then(() => {
-    const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-    notes.push({ text, files: fileData });
-    localStorage.setItem("notes", JSON.stringify(notes));
-
-    document.getElementById("note-text").value = "";
-    fileInput.value = "";
-    loadNotes();
-  });
+header {
+  background: #fff;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-function askAI() {
-  const apiKey = document.getElementById("api-key").value.trim();
-  const question = document.getElementById("chat-question").value.trim();
-  const notes = JSON.parse(localStorage.getItem("notes") || "[]");
-  const allNotes = notes.map(n => n.text).join("\n");
-
-  const prompt = `Queste sono le mie note:\n${allNotes}\nDomanda: ${question}`;
-
-  if (!apiKey || !question) {
-    alert("Inserisci sia la domanda che l'API Key.");
-    return;
-  }
-
-  fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=" + apiKey, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-  })
-    .then(res => res.json())
-    .then(data => {
-      const output = data.candidates?.[0]?.content?.parts?.[0]?.text || "Nessuna risposta.";
-      document.getElementById("chat-response").textContent = output;
-    })
-    .catch(err => {
-      console.error(err);
-      document.getElementById("chat-response").textContent = "Errore nella richiesta.";
-    });
+.note-creator {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 1rem;
+  background: #fff;
+  margin: 1rem;
+  border-radius: 8px;
 }
 
-loadNotes();
+.note-creator textarea {
+  width: 100%;
+  height: 100px;
+  padding: 0.5rem;
+  resize: vertical;
+}
+
+.note-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.note {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  word-wrap: break-word;
+  position: relative;
+}
+
+.note .delete-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #999;
+}
+
+.chatbot {
+  background: #fff;
+  margin: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.chatbot textarea {
+  width: 100%;
+  height: 80px;
+  margin-top: 0.5rem;
+}
+
+#chat-response {
+  margin-top: 1rem;
+  white-space: pre-wrap;
+  background: #f1f1f1;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
