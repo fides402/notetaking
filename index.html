@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Note AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>📝 Note AI</h1>
+  </header>
+  <main>
+    <section class="note-creator">
+      <textarea id="note-text" placeholder="Scrivi una nota..."></textarea>
+      <input type="file" id="note-file" multiple />
+      <button onclick="addNote()">Salva Nota</button>
+    </section>
+    <section class="note-grid" id="note-list"></section>
+  </main>
+  <section class="chatbot">
+    <h2>🤖 Chatbot AI</h2>
+    <input type="text" id="api-key" placeholder="Inserisci la tua API Key Google AI Studio" />
+    <textarea id="chat-question" placeholder="Fai una domanda sulle tue note..."></textarea>
+    <button onclick="askAI()">Chiedi</button>
+    <div id="chat-response"></div>
+  </section>
+  <script src="script.js"></script>
+</body>
+</html>
