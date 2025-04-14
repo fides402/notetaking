@@ -1,109 +1,48 @@
-/* Palette Notion */
-:root {
-  --bg: #f5f5f4;
-  --text: #1a1a1a;
-  --card: #ffffff;
-  --shadow: rgba(0, 0, 0, 0.05);
-}
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Note AI</title>
 
-body {
-  font-family: "Segoe UI", system-ui, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  margin: 0;
-  padding: 0;
-}
+  <!-- Font Inter (Notion-style) -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 
-/* Header */
-header {
-  background: var(--card);
-  padding: 1rem;
-  text-align: center;
-  box-shadow: 0 2px 5px var(--shadow);
-  font-size: 1.5rem;
-}
+  <!-- CSS esterno -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
-/* Sezione creazione nota */
-.note-creator {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 1rem;
-  background: var(--card);
-  margin: 1rem auto;
-  max-width: 600px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px var(--shadow);
-}
+  <!-- Header -->
+  <header>
+    <h1>📝 Note AI</h1>
+  </header>
 
-.note-creator textarea {
-  width: 100%;
-  height: 100px;
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  resize: vertical;
-  font-size: 1rem;
-}
+  <!-- Sezione per creare una nuova nota -->
+  <main>
+    <section class="note-creator">
+      <textarea id="note-text" placeholder="Scrivi una nota..."></textarea>
+      <input type="file" id="note-file" multiple />
+      <button onclick="addNote()">Salva Nota</button>
+    </section>
 
-/* Archivio in stile Google Keep */
-.note-list {
-  columns: 250px;
-  column-gap: 1rem;
-  padding: 1rem;
-}
+    <!-- Archivio note stile Google Keep -->
+    <section class="note-grid" id="note-list">
+      <!-- Le note salvate appariranno qui -->
+    </section>
+  </main>
 
-.note {
-  break-inside: avoid;
-  background: var(--card);
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px var(--shadow);
-  position: relative;
-  transition: box-shadow 0.2s;
-}
+  <!-- Chatbot AI -->
+  <section class="chatbot">
+    <h2>🤖 Chatbot AI</h2>
+    <input type="text" id="api-key" placeholder="Inserisci la tua API Key Google AI Studio" />
+    <textarea id="chat-question" placeholder="Fai una domanda sulle tue note..."></textarea>
+    <button onclick="askAI()">Chiedi</button>
+    <div id="chat-response"></div>
+  </section>
 
-.note:hover {
-  box-shadow: 0 4px 8px var(--shadow);
-}
+  <!-- Script JS -->
+  <script src="script.js"></script>
 
-.note .delete-btn {
-  position: absolute;
-  top: 5px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 1.1rem;
-  cursor: pointer;
-  color: #999;
-}
-
-/* Chatbot sezione */
-.chatbot {
-  background: var(--card);
-  margin: 1rem auto;
-  padding: 1rem;
-  max-width: 600px;
-  border-radius: 10px;
-  box-shadow: 0 1px 3px var(--shadow);
-}
-
-.chatbot textarea {
-  width: 100%;
-  height: 80px;
-  margin-top: 0.5rem;
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #ddd;
-  resize: vertical;
-}
-
-#chat-response {
-  margin-top: 1rem;
-  white-space: pre-wrap;
-  background: #fafafa;
-  padding: 0.75rem;
-  border-radius: 8px;
-  border: 1px solid #eee;
-}
+</body>
+</html>
