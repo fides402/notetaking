@@ -13,6 +13,8 @@ try {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // ✅ aggiunto per esportazione statica
+
   eslint: {
     ignoreDuringBuilds: true,
   },
